@@ -1,46 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <parent>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <parent>
+        <groupId>de.ingrid</groupId>
+        <artifactId>ingrid-releases-pom</artifactId>
+        <version>3.2.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
     <groupId>de.ingrid</groupId>
-    <artifactId>ingrid-releases-pom</artifactId>
-    <version>3.2.0</version>
-  </parent>
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>de.ingrid</groupId>
-  <artifactId>ingrid-utils-ige</artifactId>
-  <packaging>jar</packaging>
-  <version>3.2.0-SNAPSHOT</version>
-  <name>InGrid Utils IGE</name>
-  <build>
-    <finalName>${project.artifactId}-${project.version}</finalName>
-  </build>
+    <artifactId>ingrid-utils-ige</artifactId>
+    <packaging>jar</packaging>
+    <version>3.2.0-SNAPSHOT</version>
+    <name>InGrid Utils IGE</name>
+    <build>
+        <finalName>${project.artifactId}-${project.version}</finalName>
+    </build>
 
-  <!-- ==================== DEPENDENCY MANAGEMENT ==================== -->
-<!--
-  <dependencyManagement>
+    <!-- ==================== DEPENDENCY MANAGEMENT ==================== -->
+    <!-- <dependencyManagement></dependencyManagement> -->
+
+    <!-- ==================== DEPENDENCIES ==================== -->
     <dependencies>
-      <dependency>
-        <groupId>ojdbc</groupId>
-        <artifactId>ojdbc</artifactId>
-        <version>14</version>
-      </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>de.ingrid</groupId>
+            <artifactId>ingrid-utils</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+        </dependency>
     </dependencies>
-  </dependencyManagement>
--->
-  <!-- ==================== DEPENDENCIES ==================== -->
-  <dependencies>
-    
-  </dependencies>
-  <!-- NEVER DELETE: InGrid repo needed for download of parent pom if not present ! -->
-	<repositories>
-		<repository>
-          <id>de.ingrid.all</id>
-          <name>Maven Repo InGrid</name>
-          <url>http://harrison.its-technidata.de/archiva/repository/ingrid-all</url>
+    <!-- NEVER DELETE: InGrid repo needed for download of parent pom if not present ! -->
+    <repositories>
+        <repository>
+            <id>de.ingrid.all</id>
+            <name>Maven Repo InGrid</name>
+            <url>http://harrison.its-technidata.de/archiva/repository/ingrid-all</url>
         </repository>
-	</repositories>
-  <scm>
-    <connection>scm:svn:https://harrison.its-technidata.de:444/svn/ingrid/ingrid-utils-ige/trunk</connection>
-    <developerConnection>scm:svn:https://harrison.its-technidata.de:444/svn/ingrid/ingrid-utils-ige/trunk</developerConnection>
-  </scm>
+    </repositories>
+    <scm>
+        <connection>scm:svn:https://harrison.its-technidata.de:444/svn/ingrid/ingrid-utils-ige/trunk</connection>
+        <developerConnection>scm:svn:https://harrison.its-technidata.de:444/svn/ingrid/ingrid-utils-ige/trunk</developerConnection>
+    </scm>
 </project>
