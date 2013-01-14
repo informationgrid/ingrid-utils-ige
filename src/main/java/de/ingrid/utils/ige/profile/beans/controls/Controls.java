@@ -15,7 +15,7 @@ public class Controls {
     private String              id;
     private Map<String, String> label;       // localized "de" -> "German label"
     private boolean             isMandatory;
-    private String              isVisible;
+    private String              isVisible;   // "alwaysHidden", "show" or "optional"
     private boolean             isLegacy;
     private String              scriptedProperties;
     

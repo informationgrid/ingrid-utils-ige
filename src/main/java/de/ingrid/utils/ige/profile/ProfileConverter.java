@@ -106,7 +106,10 @@ public class ProfileConverter {
                   }
                   
                   // remember js-code
-                  jsCode += control.getScriptedProperties();
+                  // add it only if element is not disabled/hidden
+                  if (!"alwaysHidden".equals(control.getIsVisible())) {
+                      jsCode += control.getScriptedProperties();
+                  }
                 }
                 
                 // end rubric with a filling div if an additional field was added
