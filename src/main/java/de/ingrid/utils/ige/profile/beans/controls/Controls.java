@@ -10,6 +10,7 @@ public class Controls {
     //public static String TEXTAREA_CONTROL   = "TEXTAREA_CONTROL";
     public static String SELECT_CONTROL     = "selectControl";
     public static String GRID_CONTROL       = "tableControl";
+    public static String THESAURUS_CONTROL  = "thesaurusControl";
     
     private String              type;
     private String              id;

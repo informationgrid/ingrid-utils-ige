@@ -20,6 +20,7 @@ import de.ingrid.utils.ige.profile.beans.controls.SelectControl;
 import de.ingrid.utils.ige.profile.beans.controls.TableColumn;
 import de.ingrid.utils.ige.profile.beans.controls.TableControl;
 import de.ingrid.utils.ige.profile.beans.controls.TextControl;
+import de.ingrid.utils.ige.profile.beans.controls.ThesaurusControl;
 
 public class ProfileConverter {
     private final static Logger log = Logger.getLogger(ProfileConverter.class);
@@ -161,6 +162,8 @@ public class ProfileConverter {
             createNumberForm((NumberControl)control, rubricId);
         } else if (control.getType() == Controls.DATE_CONTROL) {
             createDateForm((DateControl)control, rubricId);
+        } else if (control.getType() == Controls.THESAURUS_CONTROL) {
+            createThesaurusForm((ThesaurusControl)control, rubricId);
         } else {
             log.error("Unknown type: " + control.getType());
         }
@@ -206,11 +209,6 @@ public class ProfileConverter {
     }
     
     private void createTableForm(TableControl control, String rubricId) throws XPathExpressionException {
-        //String id = getValue(item, "id");
-        //String width = getValue(item, "layoutWidth");
-        //String label = getValue(item, "localizedLabel");
-        //String rows = getValue(item, "layoutNumLines");
-        
         out.println("var structure = [");
         String structure = "";
         
@@ -224,14 +222,15 @@ public class ProfileConverter {
         // check needed!
         structure = structure.substring(0, structure.length() - 1);
         out.println(structure + "];");
-        /*out.println("addToSection(\"" + rubricId
-                + "\", createDomDataGrid({"+addGeneralParameter(control)+", rows:\""
-                + control.getNumTableRows()+"\", style:\"width:" + control.getWidth()
-                + control.getWidthUnit() + "\"}, structure));");
-        out.println("dijit.byId(\""+control.getId()+"\").startup();");*/
         out.println("createDomDataGrid({"+addGeneralParameter(control)+", rows:\""
                 + control.getNumTableRows()+"\", style:\"width:" + control.getWidth()
                 + control.getWidthUnit() + "\"}, structure, \""+rubricId+"\");");
+    }
+    
+    private void createThesaurusForm(ThesaurusControl control, String rubricId) throws XPathExpressionException {
+        out.println("createThesaurusGrid({"+addGeneralParameter(control)+", rows:\""
+                + control.getNumTableRows()+"\", style:\"width:" + control.getWidth()
+                + control.getWidthUnit() + "\"}, \""+rubricId+"\");");
     }
 
     private String addGeneralParameter(ExtendedControls control) {

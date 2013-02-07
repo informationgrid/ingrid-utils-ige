@@ -38,6 +38,7 @@ import de.ingrid.utils.ige.profile.beans.controls.SelectControl;
 import de.ingrid.utils.ige.profile.beans.controls.TableColumn;
 import de.ingrid.utils.ige.profile.beans.controls.TableControl;
 import de.ingrid.utils.ige.profile.beans.controls.TextControl;
+import de.ingrid.utils.ige.profile.beans.controls.ThesaurusControl;
 import de.ingrid.utils.xml.XMLUtils;
 
 public class ProfileMapper {
@@ -106,6 +107,8 @@ public class ProfileMapper {
                         ctrl = new NumberControl();
                     else if ("dateControl".equals(currentItem.getNodeName()))
                         ctrl = new DateControl();
+                    else if ("thesaurusControl".equals(currentItem.getNodeName()))
+                        ctrl = new ThesaurusControl();
                     else {
                         ctrl = new Controls();
                         ctrl.setIsLegacy(true);
@@ -135,6 +138,9 @@ public class ProfileMapper {
                         ((SelectControl)ctrl).setOptions(getSelectOptions(currentItem));
                     } else if (ctrl.getClass() == NumberControl.class) {
                         ((NumberControl)ctrl).setUnit(getValues(currentItem, "localizedLabelPostfix", "lang"));
+                    } else if (ctrl.getClass() == ThesaurusControl.class) {
+                        ((ThesaurusControl)ctrl).setNumTableRows(Integer.valueOf(getValue(currentItem, "layoutNumLines")));
+                        ((ThesaurusControl)ctrl).setThesaurusUrl(getValue(currentItem, "thesaurusUrl"));
                     }
                     
                     rubricControls.add(ctrl);
@@ -272,6 +278,9 @@ public class ProfileMapper {
                 addLocalizedList(controlNode, ((SelectControl)control).getOptions());
             } else if (type.equals(Controls.NUMBER_CONTROL)) {
                 addLocalizedNode(controlNode, ((NumberControl)control).getUnit(), "localizedLabelPostfix");
+            } else if (type.equals(Controls.THESAURUS_CONTROL)) {
+                addNode(controlNode, "layoutNumLines", String.valueOf(((ThesaurusControl)control).getNumTableRows()));
+                addNode(controlNode, "thesaurusUrl", ((ThesaurusControl)control).getThesaurusUrl());
             }
         }
         rubricNode.appendChild(controlNode);
