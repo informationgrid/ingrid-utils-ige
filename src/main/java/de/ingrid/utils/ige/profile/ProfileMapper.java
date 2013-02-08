@@ -141,6 +141,7 @@ public class ProfileMapper {
                     } else if (ctrl.getClass() == ThesaurusControl.class) {
                         ((ThesaurusControl)ctrl).setNumTableRows(Integer.valueOf(getValue(currentItem, "layoutNumLines")));
                         ((ThesaurusControl)ctrl).setThesaurusUrl(getValue(currentItem, "thesaurusUrl"));
+                        ((ThesaurusControl)ctrl).setLinkLabel(getValues(currentItem, "localizedLinkLabel", "lang"));
                     }
                     
                     rubricControls.add(ctrl);
@@ -281,6 +282,7 @@ public class ProfileMapper {
             } else if (type.equals(Controls.THESAURUS_CONTROL)) {
                 addNode(controlNode, "layoutNumLines", String.valueOf(((ThesaurusControl)control).getNumTableRows()));
                 addNode(controlNode, "thesaurusUrl", ((ThesaurusControl)control).getThesaurusUrl());
+                addLocalizedNode(controlNode, ((ThesaurusControl)control).getLinkLabel(), "localizedLinkLabel");
             }
         }
         rubricNode.appendChild(controlNode);

@@ -1,7 +1,7 @@
 package de.ingrid.utils.ige.profile.beans.controls;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
+
 
 /**
  * This control generally defines a table with a button where new 
@@ -13,6 +13,7 @@ public class ThesaurusControl extends ExtendedControls {
     
     private int    numTableRows;
     private String thesaurusUrl;
+    private Map<String, String> linkLabel;
     
     public ThesaurusControl() {
         this.setType(THESAURUS_CONTROL);
@@ -32,6 +33,14 @@ public class ThesaurusControl extends ExtendedControls {
 
     public void setThesaurusUrl(String thesaurusUrl) {
         this.thesaurusUrl = thesaurusUrl;
+    }
+    
+    public Map<String, String> getLinkLabel() {
+        return linkLabel;
+    }
+
+    public void setLinkLabel(Map<String, String> linkLabel) {
+        this.linkLabel = linkLabel;
     }
     
     /**

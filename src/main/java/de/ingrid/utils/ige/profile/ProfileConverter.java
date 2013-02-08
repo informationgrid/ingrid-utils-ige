@@ -229,7 +229,8 @@ public class ProfileConverter {
     
     private void createThesaurusForm(ThesaurusControl control, String rubricId) throws XPathExpressionException {
         out.println("createThesaurusGrid({"+addGeneralParameter(control)+", rows:\""
-                + control.getNumTableRows()+"\", style:\"width:" + control.getWidth()
+                + control.getNumTableRows() + "\", linkLabel:\"" + getLocalizedValue(control.getLinkLabel()) + "\", rootUrl:\""
+        		+ control.getThesaurusUrl() + "\", style:\"width:" + control.getWidth()
                 + control.getWidthUnit() + "\"}, \""+rubricId+"\");");
     }
 
