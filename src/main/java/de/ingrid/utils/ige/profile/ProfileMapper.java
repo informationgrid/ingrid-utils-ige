@@ -29,6 +29,7 @@ import org.xml.sax.SAXException;
 import de.ingrid.utils.enumeration.IDbEnum;
 import de.ingrid.utils.ige.profile.beans.ProfileBean;
 import de.ingrid.utils.ige.profile.beans.Rubric;
+import de.ingrid.utils.ige.profile.beans.controls.CheckboxControl;
 import de.ingrid.utils.ige.profile.beans.controls.Controls;
 import de.ingrid.utils.ige.profile.beans.controls.DateControl;
 import de.ingrid.utils.ige.profile.beans.controls.ExtendedControls;
@@ -62,6 +63,12 @@ public class ProfileMapper {
         return mapStreamToBean(new InputSource(new StringReader(profile)));
     }
     
+    /**
+     * Convert a XML stream to an object model.
+     * 
+     * @param profileStream
+     * @return
+     */
     public ProfileBean mapStreamToBean(InputSource profileStream) {
         ProfileBean bean = new ProfileBean();
         List<Rubric> rubrics = bean.getRubrics();
@@ -107,6 +114,8 @@ public class ProfileMapper {
                         ctrl = new NumberControl();
                     else if ("dateControl".equals(currentItem.getNodeName()))
                         ctrl = new DateControl();
+                    else if ("checkControl".equals(currentItem.getNodeName()))
+                        ctrl = new CheckboxControl();
                     else if ("thesaurusControl".equals(currentItem.getNodeName()))
                         ctrl = new ThesaurusControl();
                     else {
@@ -138,6 +147,8 @@ public class ProfileMapper {
                         ((SelectControl)ctrl).setOptions(getSelectOptions(currentItem));
                     } else if (ctrl.getClass() == NumberControl.class) {
                         ((NumberControl)ctrl).setUnit(getValues(currentItem, "localizedLabelPostfix", "lang"));
+                    } else if (ctrl.getClass() == CheckboxControl.class) {
+                        ((CheckboxControl)ctrl).setChecked("true".equals(getValue(currentItem, "checked")));
                     } else if (ctrl.getClass() == ThesaurusControl.class) {
                         ((ThesaurusControl)ctrl).setNumTableRows(Integer.valueOf(getValue(currentItem, "layoutNumLines")));
                         ((ThesaurusControl)ctrl).setThesaurusUrl(getValue(currentItem, "thesaurusUrl"));
@@ -171,6 +182,12 @@ public class ProfileMapper {
         return bean;
     }
     
+    
+    /**
+     * Convert an object model to XML notation for storing in database.
+     * @param bean
+     * @return
+     */
     public String mapBeanToXmlString(ProfileBean bean) {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder;
@@ -279,6 +296,8 @@ public class ProfileMapper {
                 addLocalizedList(controlNode, ((SelectControl)control).getOptions());
             } else if (type.equals(Controls.NUMBER_CONTROL)) {
                 addLocalizedNode(controlNode, ((NumberControl)control).getUnit(), "localizedLabelPostfix");
+            } else if (type.equals(Controls.CHECKBOX_CONTROL)) {
+                addNode(controlNode, "checked", ((CheckboxControl)control).getChecked() ? "true" : "false");
             } else if (type.equals(Controls.THESAURUS_CONTROL)) {
                 addNode(controlNode, "layoutNumLines", String.valueOf(((ThesaurusControl)control).getNumTableRows()));
                 addNode(controlNode, "thesaurusUrl", ((ThesaurusControl)control).getThesaurusUrl());

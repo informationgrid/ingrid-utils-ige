@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 
 import de.ingrid.utils.ige.profile.beans.ProfileBean;
 import de.ingrid.utils.ige.profile.beans.Rubric;
+import de.ingrid.utils.ige.profile.beans.controls.CheckboxControl;
 import de.ingrid.utils.ige.profile.beans.controls.Controls;
 import de.ingrid.utils.ige.profile.beans.controls.DateControl;
 import de.ingrid.utils.ige.profile.beans.controls.ExtendedControls;
@@ -83,6 +84,10 @@ public class ProfileConverter {
         return "";
     }*/
     
+    /**
+     * Convert an object model to executable Javascript commands.
+     * @param bean
+     */
     public void convertProfileBeanToJS(ProfileBean bean) {
         List<String> tableControls = new ArrayList<String>();
         String jsCode = "";
@@ -162,6 +167,8 @@ public class ProfileConverter {
             createNumberForm((NumberControl)control, rubricId);
         } else if (control.getType() == Controls.DATE_CONTROL) {
             createDateForm((DateControl)control, rubricId);
+        } else if (control.getType() == Controls.CHECKBOX_CONTROL) {
+            createCheckboxForm((CheckboxControl)control, rubricId);
         } else if (control.getType() == Controls.THESAURUS_CONTROL) {
             createThesaurusForm((ThesaurusControl)control, rubricId);
         } else {
@@ -198,6 +205,12 @@ public class ProfileConverter {
     private void createDateForm(DateControl control, String rubricId) {
         out.println("addToSection(\"" + rubricId
                 + "\", createDomDatebox({"+addGeneralParameter(control)+", " +
+                "style:\"width:" + control.getWidth() + control.getWidthUnit() + "\"}));");
+    }
+    
+    private void createCheckboxForm(CheckboxControl control, String rubricId) {
+        out.println("addToSection(\"" + rubricId
+                + "\", createDomCheckbox({"+addGeneralParameter(control)+", " +
                 "style:\"width:" + control.getWidth() + control.getWidthUnit() + "\"}));");
     }
     
