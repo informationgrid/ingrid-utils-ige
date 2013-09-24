@@ -114,7 +114,7 @@ public class ProfileMapper {
                         ctrl = new NumberControl();
                     else if ("dateControl".equals(currentItem.getNodeName()))
                         ctrl = new DateControl();
-                    else if ("checkControl".equals(currentItem.getNodeName()))
+                    else if ("checkboxControl".equals(currentItem.getNodeName()))
                         ctrl = new CheckboxControl();
                     else if ("thesaurusControl".equals(currentItem.getNodeName()))
                         ctrl = new ThesaurusControl();
@@ -148,7 +148,6 @@ public class ProfileMapper {
                     } else if (ctrl.getClass() == NumberControl.class) {
                         ((NumberControl)ctrl).setUnit(getValues(currentItem, "localizedLabelPostfix", "lang"));
                     } else if (ctrl.getClass() == CheckboxControl.class) {
-                        ((CheckboxControl)ctrl).setChecked("true".equals(getValue(currentItem, "checked")));
                     } else if (ctrl.getClass() == ThesaurusControl.class) {
                         ((ThesaurusControl)ctrl).setNumTableRows(Integer.valueOf(getValue(currentItem, "layoutNumLines")));
                         ((ThesaurusControl)ctrl).setThesaurusUrl(getValue(currentItem, "thesaurusUrl"));
@@ -297,7 +296,6 @@ public class ProfileMapper {
             } else if (type.equals(Controls.NUMBER_CONTROL)) {
                 addLocalizedNode(controlNode, ((NumberControl)control).getUnit(), "localizedLabelPostfix");
             } else if (type.equals(Controls.CHECKBOX_CONTROL)) {
-                addNode(controlNode, "checked", ((CheckboxControl)control).getChecked() ? "true" : "false");
             } else if (type.equals(Controls.THESAURUS_CONTROL)) {
                 addNode(controlNode, "layoutNumLines", String.valueOf(((ThesaurusControl)control).getNumTableRows()));
                 addNode(controlNode, "thesaurusUrl", ((ThesaurusControl)control).getThesaurusUrl());
