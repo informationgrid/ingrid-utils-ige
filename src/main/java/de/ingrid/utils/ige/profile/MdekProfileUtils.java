@@ -137,4 +137,31 @@ public class MdekProfileUtils {
 	public static void removeAllScriptedProperties(Controls control) {
 		control.setScriptedProperties("");
 	}
+	/** Replace a section of the scripted properties.
+	 * @param control control containing js
+	 * @param startTag part of existing js marking START of section to replace (will be removed), e.g. "// START 3.2.0 update"
+	 * @param endTag part of existing js marking END of section to replace (will be removed), e.g. "// 3.2.0 END"
+	 * @param jsNew new js to replace old js between startTag <-> endTag (old tags will be replaced)
+	 * @return true=old part replaced, false=start or end tag not found, keep old js
+	 */
+	public static boolean replaceInScriptedProperties(Controls control, String startTag, String endTag, String jsNew) {
+    	boolean propsReplaced = false;
+    	String myScriptedProps = control.getScriptedProperties();
+		if (myScriptedProps != null) {
+			int startIndex = myScriptedProps.indexOf(startTag);
+			if (startIndex != -1) {
+				int endIndex = myScriptedProps.indexOf(endTag);
+				if (endIndex != -1) {
+					endIndex = endIndex + endTag.length();
+					// replace old part with new part
+					myScriptedProps = myScriptedProps.substring(0, startIndex)
+							+ jsNew
+		                    + myScriptedProps.substring(endIndex);
+					control.setScriptedProperties(myScriptedProps);
+					propsReplaced = true;
+				}
+			}			
+		}
+		return propsReplaced;
+	}
 }
