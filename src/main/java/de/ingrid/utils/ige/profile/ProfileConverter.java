@@ -95,7 +95,7 @@ public class ProfileConverter {
         this.defaultLanguage = bean.getLanguages().get(0);
         
         try {
-            out.println("require(['global/layoutCreator', 'ingrid/CustomGridEditors', 'ingrid/CustomGridFormatters'], function(layoutCreator, gridEditors, gridFormatters) {");
+            out.println("require(['ingrid/layoutCreator', 'ingrid/grid/CustomGridEditors', 'ingrid/grid/CustomGridFormatters'], function(layoutCreator, gridEditors, gridFormatters) {");
             for (Rubric rubric : bean.getRubrics()) {
                 createRubric(rubric);
                 additionalFieldPresent = false;
