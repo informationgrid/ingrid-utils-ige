@@ -1,13 +1,11 @@
 package de.ingrid.utils.ige.profile;
 
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import javax.xml.xpath.XPathExpressionException;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import de.ingrid.utils.ige.profile.beans.ProfileBean;
@@ -89,7 +87,7 @@ public class ProfileConverter {
      * @param bean
      */
     public void convertProfileBeanToJS(ProfileBean bean) {
-        List<String> tableControls = new ArrayList<String>();
+        //List<String> tableControls = new ArrayList<String>();
         String jsCode = "";
         boolean additionalFieldPresent = false;
         
@@ -97,6 +95,7 @@ public class ProfileConverter {
         this.defaultLanguage = bean.getLanguages().get(0);
         
         try {
+            out.println("require(['ingrid/layoutCreator', 'ingrid/grid/CustomGridEditors', 'ingrid/grid/CustomGridFormatters'], function(layoutCreator, gridEditors, gridFormatters) {");
             for (Rubric rubric : bean.getRubrics()) {
                 createRubric(rubric);
                 additionalFieldPresent = false;
@@ -135,6 +134,7 @@ public class ProfileConverter {
             out.println("} catch(e) {");
             out.println("    displayErrorMessage('Scripted Properties Error of one or more additional fields: ' + e);");
             out.println("}");
+            out.println("});");
             
         } catch (XPathExpressionException e) {
             // TODO Auto-generated catch block
@@ -143,15 +143,15 @@ public class ProfileConverter {
     }
     
     private void endRubric(String id) {
-        out.println("addToSection(\""+id+"\", createDivElement(\"fill\"));");
+        out.println("layoutCreator.addToSection(\""+id+"\", layoutCreator.createDivElement(\"fill\"));");
     }
 
-    private void addContextMenusToGrids(List<String> tables) throws XPathExpressionException {
-        if (tables.size() > 0) {
-            String idArray = "[\"" + StringUtils.join(tables.toArray(), "\",\"") + "\"]";
-            out.println("createGeneralTableContextMenu("+idArray+");");
-        }
-    }
+//    private void addContextMenusToGrids(List<String> tables) throws XPathExpressionException {
+//        if (tables.size() > 0) {
+//            String idArray = "[\"" + StringUtils.join(tables.toArray(), "\",\"") + "\"]";
+//            out.println("createGeneralTableContextMenu("+idArray+");");
+//        }
+//    }
 
     private void processToJS(Controls control, String rubricId) throws XPathExpressionException {
         
@@ -180,7 +180,7 @@ public class ProfileConverter {
         // do not create legacy rubrics (who already exist)
         if (rubric.getIsLegacy()) return;
         
-        out.println("addElementToObjectForm(createRubric({id:\"" + rubric.getId() + "\",label:\""
+        out.println("layoutCreator.addElementToObjectForm(layoutCreator.createRubric({id:\"" + rubric.getId() + "\",label:\""
                 + rubric.getLabel().get(this.language) + "\", help:\""+rubric.getHelpMessage().get(this.language)+"\"}));");
     }
 
@@ -189,34 +189,34 @@ public class ProfileConverter {
         String height = "";//, height:101";
         
         if ( control.getNumLines() == 1) {
-            out.println("addToSection(\"" + rubricId
-                    + "\", createDomTextbox({"+addGeneralParameter(control)+", style:\"width:" + control.getWidth() + control.getWidthUnit() + "\"}));");
+            out.println("layoutCreator.addToSection(\"" + rubricId
+                    + "\", layoutCreator.createDomTextbox({"+addGeneralParameter(control)+", style:\"width:" + control.getWidth() + control.getWidthUnit() + "\"}));");
         } else {
-            out.println("addToSection(\"" + rubricId
-                    + "\", createDomTextarea({"+addGeneralParameter(control)+", style:\"width:" + control.getWidth() + control.getWidthUnit() + "\", rows:"+control.getNumLines()+height+"}));");
+            out.println("layoutCreator.addToSection(\"" + rubricId
+                    + "\", layoutCreator.createDomTextarea({"+addGeneralParameter(control)+", style:\"width:" + control.getWidth() + control.getWidthUnit() + "\", rows:"+control.getNumLines()+height+"}));");
         }
     }
     
     private void createNumberForm(NumberControl control, String rubricId) {
-        out.println("addToSection(\"" + rubricId
-                + "\", createDomNumberbox({"+addGeneralParameter(control)+", unit:'"+control.getUnit().get(this.language)+"', style:\"width:" + control.getWidth() + control.getWidthUnit() + "\"}));");
+        out.println("layoutCreator.addToSection(\"" + rubricId
+                + "\", layoutCreator.createDomNumberbox({"+addGeneralParameter(control)+", unit:'"+control.getUnit().get(this.language)+"', style:\"width:" + control.getWidth() + control.getWidthUnit() + "\"}));");
     }
 
     private void createDateForm(DateControl control, String rubricId) {
-        out.println("addToSection(\"" + rubricId
-                + "\", createDomDatebox({"+addGeneralParameter(control)+", " +
+        out.println("layoutCreator.addToSection(\"" + rubricId
+                + "\", layoutCreator.createDomDatebox({"+addGeneralParameter(control)+", " +
                 "style:\"width:" + control.getWidth() + control.getWidthUnit() + "\"}));");
     }
     
     private void createCheckboxForm(CheckboxControl control, String rubricId) {
-        out.println("addToSection(\"" + rubricId
-                + "\", createDomCheckbox({"+addGeneralParameter(control)+", " +
+        out.println("layoutCreator.addToSection(\"" + rubricId
+                + "\", layoutCreator.createDomCheckbox({"+addGeneralParameter(control)+", " +
                 "style:\"width:" + control.getWidth() + control.getWidthUnit() + "\"}));");
     }
     
     private void createSelectForm(SelectControl control, String rubricId) throws XPathExpressionException {
-        out.println("addToSection(\"" + rubricId
-                + "\", createDomSelectBox({"+addGeneralParameter(control)+", isExtendable: "+control.getAllowFreeEntries()+", style:\"width:" 
+        out.println("layoutCreator.addToSection(\"" + rubricId
+                + "\", layoutCreator.createDomSelectBox({"+addGeneralParameter(control)+", isExtendable: "+control.getAllowFreeEntries()+", style:\"width:" 
                 + control.getWidth() + control.getWidthUnit() + "\", listEntries:"
                 + "["+control.getOptionsAsStringWithId(this.language) + "]}));");
     }
@@ -235,13 +235,13 @@ public class ProfileConverter {
         // check needed!
         structure = structure.substring(0, structure.length() - 1);
         out.println(structure + "];");
-        out.println("createDomDataGrid({"+addGeneralParameter(control)+", rows:\""
+        out.println("layoutCreator.createDomDataGrid({"+addGeneralParameter(control)+", rows:\""
                 + control.getNumTableRows()+"\", style:\"width:" + control.getWidth()
                 + control.getWidthUnit() + "\"}, structure, \""+rubricId+"\");");
     }
     
     private void createThesaurusForm(ThesaurusControl control, String rubricId) throws XPathExpressionException {
-        out.println("createThesaurusGrid({"+addGeneralParameter(control)+", rows:\""
+        out.println("layoutCreator.createThesaurusGrid({"+addGeneralParameter(control)+", rows:\""
                 + control.getNumTableRows() + "\", linkLabel:\"" + getLocalizedValue(control.getLinkLabel()) + "\", rootUrl:\""
         		+ control.getThesaurusUrl() + "\", style:\"width:" + control.getWidth()
                 + control.getWidthUnit() + "\"}, \""+rubricId+"\");");
@@ -272,22 +272,26 @@ public class ProfileConverter {
             width = "auto";
         
         if (columnBean.getType().equals(Controls.NUMBER_CONTROL)) {
-            editor = "type: DecimalCellEditor, formatter: LocalizedNumberFormatter, ";
+            editor = "type: gridEditors.DecimalCellEditor, formatter: gridFormatters.LocalizedNumberFormatter, ";
         } else if (columnBean.getType().equals(Controls.SELECT_CONTROL)) {
             // what about syslist support?
             String options = "options: ["+columnBean.getOptionsAsString(this.language)+"], ";
             String values = "values: ["+columnBean.getIdsAsString(this.language)+"], ";
             if (columnBean.getAllowFreeEntries())
-                editor = "type: ComboboxEditor, " + options + values;
+                editor = "type: gridEditors.ComboboxEditor, " + options + values;
             else
-                editor = "type: SelectboxEditor, " + options + values;
+                editor = "type: gridEditors.SelectboxEditor, " + options + values;
             //editor += "formatter: function(value){return UtilList.getSelectDisplayValue(this, value);}, ";
-            editor += "formatter: ListCellFormatter, ";
+            editor += "formatter: gridFormatters.ListCellFormatter, ";
         } else if (columnBean.getType().equals(Controls.DATE_CONTROL)) {
-            editor = "type: DateCellEditorToString, formatter: DateCellFormatter, ";
+            editor = "type: gridEditors.DateCellEditorToString, formatter: gridFormatters.DateCellFormatter, ";
         }
         
-        column += "field:'"+columnBean.getId()+"', name:'"+columnBean.getLabel().get(this.language)
+        String label = columnBean.getLabel().get(this.language);
+        // fallback to English
+        if (label == null || "".equals(label)) label = columnBean.getLabel().get("en");
+        
+        column += "field:'"+columnBean.getId()+"', name:'"+label
             + "', width:'"+width+"', "+editor+"editable:true";
         
         return column + "}";
@@ -332,6 +336,7 @@ public class ProfileConverter {
      */
     public void printVisibilityJSCode(ProfileBean bean) {
         out.println("function setVisibilityOfFields() {");
+        out.println("require(['dojo/dom-class'], function(domClass) {");
         out.println("console.debug(\"set visibility to fields\");");
         for (Rubric rubric : bean.getRubrics()) {
             for (Controls control : rubric.getControls()) {
@@ -340,11 +345,11 @@ public class ProfileConverter {
                 // will have the correct class during initialization
                 if (control.getIsLegacy()) {
                     if (control.getIsMandatory())
-                        out.println("dojo.addClass(\""+id+"\", \"required\");");
-                    out.println("dojo.addClass(\""+id+"\", \""+control.getIsVisible()+"\");");
+                        out.println("domClass.add(\""+id+"\", \"required\");");
+                    out.println("domClass.add(\""+id+"\", \""+control.getIsVisible()+"\");");
                 }
             }
         }
-        out.println("}");
+        out.println("})}");
     }
 }
