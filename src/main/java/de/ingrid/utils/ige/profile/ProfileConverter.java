@@ -95,7 +95,9 @@ public class ProfileConverter {
         this.defaultLanguage = bean.getLanguages().get(0);
         
         try {
-            out.println("require(['ingrid/layoutCreator', 'ingrid/grid/CustomGridEditors', 'ingrid/grid/CustomGridFormatters'], function(layoutCreator, gridEditors, gridFormatters) {");
+        	out.println("var Deferred = require('dojo/Deferred');");
+        	out.println("var def = new Deferred();");
+            out.println("require(['ingrid/layoutCreator', 'ingrid/Framework', 'ingrid/grid/CustomGridEditors', 'ingrid/grid/CustomGridFormatters'], function(layoutCreator, framework, gridEditors, gridFormatters) {");
             for (Rubric rubric : bean.getRubrics()) {
                 createRubric(rubric);
                 additionalFieldPresent = false;
@@ -132,9 +134,13 @@ public class ProfileConverter {
             out.println("try {");
             out.println(jsCode);
             out.println("} catch(e) {");
+            out.println("    console.error(e.stack);");
             out.println("    displayErrorMessage('Scripted Properties Error of one or more additional fields: ' + e);");
+            out.println("} finally {");
+            out.println("    def.resolve();");
             out.println("}");
             out.println("});");
+            out.println("return def;");
             
         } catch (XPathExpressionException e) {
             // TODO Auto-generated catch block
