@@ -40,11 +40,11 @@
         <repository>
             <id>de.ingrid.all</id>
             <name>Maven Repo InGrid</name>
-            <url>http://harrison.its-technidata.de/archiva/repository/ingrid-all</url>
+            <url>https://dev.informationgrid.eu/archiva/repository/ingrid-all</url>
         </repository>
     </repositories>
     <scm>
-        <connection>scm:svn:https://harrison.its-technidata.de:444/svn/ingrid/ingrid-utils-ige/trunk</connection>
-        <developerConnection>scm:svn:https://harrison.its-technidata.de:444/svn/ingrid/ingrid-utils-ige/trunk</developerConnection>
+        <connection>scm:git:git@github.com:informationgrid/ingrid-utils-ige.git</connection>
+        <developerConnection>scm:git:git@github.com:informationgrid/ingrid-utils-ige.git</developerConnection>
     </scm>
 </project>
