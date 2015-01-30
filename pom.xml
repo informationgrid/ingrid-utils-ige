@@ -9,7 +9,7 @@
     <groupId>de.ingrid</groupId>
     <artifactId>ingrid-utils-ige</artifactId>
     <packaging>jar</packaging>
-    <version>3.5.0-SNAPSHOT</version>
+    <version>3.5.0</version>
     <name>InGrid Utils IGE</name>
     <build>
         <finalName>${project.artifactId}-${project.version}</finalName>
@@ -46,5 +46,6 @@
     <scm>
         <connection>scm:git:git@github.com:informationgrid/ingrid-utils-ige.git</connection>
         <developerConnection>scm:git:git@github.com:informationgrid/ingrid-utils-ige.git</developerConnection>
-    </scm>
+      <tag>ingrid-utils-ige-3.5.0</tag>
+  </scm>
 </project>
