@@ -166,6 +166,7 @@ public class ProfileMapper {
                         ((TableControl)ctrl).setColumns(getColumns((TableControl)ctrl, currentItem));
                     } else if (ctrl.getClass() == SelectControl.class) {
                         ((SelectControl)ctrl).setAllowFreeEntries("true".equals(getAttribute(currentItem, "isExtendable")) ? true : false);
+                        ((SelectControl)ctrl).setUseSyslist( getAttribute(currentItem, "useSyslist") );
                         ((SelectControl)ctrl).setOptions(getSelectOptions(currentItem));
                     } else if (ctrl.getClass() == NumberControl.class) {
                         ((NumberControl)ctrl).setUnit(getValues(currentItem, "localizedLabelPostfix", "lang"));
@@ -305,6 +306,7 @@ public class ProfileMapper {
                     addNode(typeNode, "indexName", column.getIndexName());
                     addNode(typeNode, "layoutWidth", column.getWidth());
                     XMLUtils.createOrReplaceAttribute(typeNode, "isExtendable", column.getAllowFreeEntries() ? "true" : "false");
+                    XMLUtils.createOrReplaceAttribute(typeNode, "useSyslist", column.getUseSyslist());
                     if (column.getOptions() != null)
                         addLocalizedList(typeNode, column.getOptions());
                     columnsNode.appendChild(typeNode);
@@ -314,6 +316,7 @@ public class ProfileMapper {
                 addNode(controlNode, "layoutNumLines", String.valueOf(((TextControl)control).getNumLines()));
             } else if (type.equals(Controls.SELECT_CONTROL)) {
                 XMLUtils.createOrReplaceAttribute(controlNode, "isExtendable", ((SelectControl)control).getAllowFreeEntries() ? "true" : "false");
+                XMLUtils.createOrReplaceAttribute(controlNode, "useSyslist", ((SelectControl)control).getUseSyslist());
                 addLocalizedList(controlNode, ((SelectControl)control).getOptions());
             } else if (type.equals(Controls.NUMBER_CONTROL)) {
                 addLocalizedNode(controlNode, ((NumberControl)control).getUnit(), "localizedLabelPostfix");
@@ -395,10 +398,12 @@ public class ProfileMapper {
             String width = getValue(columns.item(i), "layoutWidth");
             String index = getValue(columns.item(i), "indexName");
             boolean extendable = "true".equals(getAttribute(columns.item(i), "isExtendable")) ? true : false;
+            String useSyslist = getAttribute(columns.item(i), "useSyslist");
             Map<String,List<OptionEntry>> options = getSelectOptions(columns.item(i));
             
             TableColumn tc = new TableColumn(nodeType, field, name, width, index, options);
             tc.setAllowFreeEntries(extendable);
+            tc.setUseSyslist( useSyslist );
             beanColumns.add(tc);
         }
         

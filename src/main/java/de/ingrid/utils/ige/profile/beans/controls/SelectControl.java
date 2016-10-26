@@ -26,8 +26,9 @@ import java.util.List;
 import java.util.Map;
 
 public class SelectControl extends ExtendedControls {
-    private Map<String,List<OptionEntry>> options;// = new HashMap<String,List<String>>();
+    private Map<String,List<OptionEntry>> options;
     private boolean allowFreeEntries; 
+    private String useSyslist; 
     
     public SelectControl() {
         this.setType(SELECT_CONTROL);
@@ -82,5 +83,13 @@ public class SelectControl extends ExtendedControls {
 
     public boolean getAllowFreeEntries() {
         return allowFreeEntries;
+    }
+
+    public String getUseSyslist() {
+        return useSyslist;
+    }
+
+    public void setUseSyslist(String useSyslist) {
+        this.useSyslist = useSyslist;
     }
 }

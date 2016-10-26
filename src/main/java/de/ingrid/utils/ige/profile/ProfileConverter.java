@@ -119,7 +119,7 @@ public class ProfileConverter {
         try {
         	out.println("var Deferred = require('dojo/Deferred');");
         	out.println("var def = new Deferred();");
-            out.println("require(['ingrid/layoutCreator', 'ingrid/Framework', 'ingrid/grid/CustomGridEditors', 'ingrid/grid/CustomGridFormatters'], function(layoutCreator, framework, gridEditors, gridFormatters) {");
+            out.println("require(['dojo/_base/lang', 'ingrid/layoutCreator', 'ingrid/Framework', 'ingrid/grid/CustomGridEditors', 'ingrid/grid/CustomGridFormatters'], function(lang, layoutCreator, framework, gridEditors, gridFormatters) {");
             for (Rubric rubric : bean.getRubrics()) {
                 createRubric(rubric);
                 additionalFieldPresent = false;
@@ -245,7 +245,7 @@ public class ProfileConverter {
     private void createSelectForm(SelectControl control, String rubricId) throws XPathExpressionException {
         out.println("layoutCreator.addToSection(\"" + rubricId
                 + "\", layoutCreator.createDomSelectBox({"+addGeneralParameter(control)+", isExtendable: "+control.getAllowFreeEntries()+", style:\"width:" 
-                + control.getWidth() + control.getWidthUnit() + "\", listEntries:"
+                + control.getWidth() + control.getWidthUnit() + "\", useSyslist: \"" + control.getUseSyslist() + "\", listEntries:"
                 + "["+control.getOptionsAsStringWithId(this.language) + "]}));");
     }
     
@@ -319,8 +319,13 @@ public class ProfileConverter {
         // fallback to English
         if (label == null || "".equals(label)) label = columnBean.getLabel().get("en");
         
-        column += "field:'"+columnBean.getId()+"', name:'"+label
-            + "', width:'"+width+"', "+editor+"editable:true";
+        column += "field:'" + columnBean.getId() + "', name:'" + label + "'" +
+                ", width:'" + width + "', " + editor + "editable:true";
+        
+        if (columnBean.getUseSyslist() != null && columnBean.getUseSyslist().trim().length() > 0) {
+            column += ", listId:'" + columnBean.getUseSyslist() + 
+                    "', formatter: lang.partial(gridFormatters.SyslistCellFormatter, " + columnBean.getUseSyslist() + ")";
+        }
         
         return column + "}";
     }
