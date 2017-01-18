@@ -155,6 +155,7 @@ public class ProfileMapper {
                         ctrl.setLabel(getValues(currentItem, "localizedLabel", "lang"));
                         ((ExtendedControls)ctrl).setHelpMessage(getValues(currentItem, "localizedHelp", "lang"));
                         ((ExtendedControls)ctrl).setScriptedCswMapping(getValue(currentItem, "scriptedCswMapping"));
+                        ((ExtendedControls)ctrl).setScriptedCswMappingImport(getValue(currentItem, "scriptedCswMappingImport"));
                         ((ExtendedControls)ctrl).setIndexName(getValue(currentItem, "indexName"));
                         ((ExtendedControls)ctrl).setWidth(getValue(currentItem, "layoutWidth"));
                     }
@@ -290,6 +291,9 @@ public class ProfileMapper {
             addLocalizedNode(controlNode, ((ExtendedControls)control).getHelpMessage(), "localizedHelp");
             if (((ExtendedControls)control).getScriptedCswMapping() != null) {
                 addNode(controlNode, "scriptedCswMapping", ((ExtendedControls)control).getScriptedCswMapping(), true);
+            }
+            if (((ExtendedControls)control).getScriptedCswMappingImport() != null) {
+                addNode(controlNode, "scriptedCswMappingImport", ((ExtendedControls)control).getScriptedCswMappingImport(), true);
             }
             addNode(controlNode, "indexName", ((ExtendedControls)control).getIndexName());
             addNode(controlNode, "layoutWidth", ((ExtendedControls)control).getWidth());
@@ -427,21 +431,6 @@ public class ProfileMapper {
             options.put(getAttribute(resNodes.item(i), "lang"), list);
         }
         return options;
-    }
-
-    private String mapType(String nodeName) {
-        if (nodeName.equals("textControl"))
-            return Controls.TEXT_CONTROL;
-        else if (nodeName.equals("numberControl"))
-            return Controls.NUMBER_CONTROL;
-        else if (nodeName.equals("dateControl"))
-            return Controls.DATE_CONTROL;
-        else if (nodeName.equals("selectControl"))
-            return Controls.SELECT_CONTROL;
-        else
-            log.error("Unknown column type: " + nodeName);
-        
-        return null;
     }
 
     private NodeList getAllTableColumns(Node node) throws XPathExpressionException {

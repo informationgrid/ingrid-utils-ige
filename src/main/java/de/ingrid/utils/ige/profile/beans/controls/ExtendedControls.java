@@ -29,6 +29,7 @@ public class ExtendedControls extends Controls{
     private String              widthUnit = "%";
     private Map<String, String> helpMessage; // localized
     private String              scriptedCswMapping;
+    private String              scriptedCswMappingImport;
     private String              indexName;
     
     public void setWidth(String width) {
@@ -61,5 +62,11 @@ public class ExtendedControls extends Controls{
     }
     public String getWidthUnit() {
         return widthUnit;
+    }
+    public String getScriptedCswMappingImport() {
+        return scriptedCswMappingImport;
+    }
+    public void setScriptedCswMappingImport(String scriptedCswMappingImport) {
+        this.scriptedCswMappingImport = scriptedCswMappingImport;
     }
 }
