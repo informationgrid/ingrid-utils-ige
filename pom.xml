@@ -31,17 +31,10 @@
     </plugins>
   </build>
   <!-- ==================== DEPENDENCY MANAGEMENT ==================== -->
-  <dependencyManagement>
+  <!-- <dependencyManagement>
     <dependencies>
-      <dependency>
-        <groupId>de.ingrid</groupId>
-        <artifactId>ingrid-version-management-pom</artifactId>
-        <version>3.6.0-SNAPSHOT</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
     </dependencies>
-  </dependencyManagement>
+  </dependencyManagement> -->
   <!-- ==================== DEPENDENCIES ==================== -->
   <dependencies>
     <dependency>
@@ -52,6 +45,7 @@
     <dependency>
       <groupId>de.ingrid</groupId>
       <artifactId>ingrid-utils</artifactId>
+      <version>4.0.1</version>
     </dependency>
     <dependency>
       <groupId>commons-lang</groupId>
