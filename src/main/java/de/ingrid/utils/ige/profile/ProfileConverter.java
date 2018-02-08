@@ -113,10 +113,13 @@ public class ProfileConverter {
         String jsCode = "";
         boolean additionalFieldPresent = false;
         
-        // the first language also is the default language!
-        this.defaultLanguage = bean.getLanguages().get(0);
-        
         try {
+            if (log.isDebugEnabled()) {
+                log.debug( "Passed ProfileBean " + bean );
+            }
+            // the first language also is the default language!
+            this.defaultLanguage = bean.getLanguages().get(0);
+            
         	out.println("var Deferred = require('dojo/Deferred');");
         	out.println("var def = new Deferred();");
             out.println("require(['dojo/_base/lang', 'ingrid/layoutCreator', 'ingrid/Framework', 'ingrid/grid/CustomGridEditors', 'ingrid/grid/CustomGridFormatters'], function(lang, layoutCreator, framework, gridEditors, gridFormatters) {");
@@ -163,11 +166,10 @@ public class ProfileConverter {
             out.println("}");
             out.println("});");
             out.println("return def;");
-            
-        } catch (XPathExpressionException e) {
-            // TODO Auto-generated catch block
+        } catch (Exception e) {
+            log.error("Problems converting Profile to JS! " + e);
             e.printStackTrace();
-        }
+        }        
     }
     
     private void endRubric(String id) {
