@@ -141,6 +141,8 @@ public class MdekProfileUtils {
 			if (index > -1) {
 				retValue = rubric.getControls().remove(index);
 			}
+		} else {
+			log.info("Rubric or control was not found for control id: " + controlId);
 		}
 
 		return retValue;
