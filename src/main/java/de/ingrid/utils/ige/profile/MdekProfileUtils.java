@@ -136,11 +136,13 @@ public class MdekProfileUtils {
 		Controls retValue = null;
 
 		Rubric rubric = findRubricOfControl(profileBean, controlId);
-		int index = findControlIndex(profileBean, rubric, controlId);
-		if (index > -1) {
-			retValue = rubric.getControls().remove(index);
+		if (rubric != null) {
+			int index = findControlIndex(profileBean, rubric, controlId);
+			if (index > -1) {
+				retValue = rubric.getControls().remove(index);
+			}
 		}
-		
+
 		return retValue;
 	}
 
