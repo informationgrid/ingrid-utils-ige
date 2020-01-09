@@ -2,7 +2,7 @@
  * **************************************************-
  * InGrid Utils IGE
  * ==================================================
- * Copyright (C) 2014 - 2017 wemove digital solutions GmbH
+ * Copyright (C) 2014 - 2020 wemove digital solutions GmbH
  * ==================================================
  * Licensed under the EUPL, Version 1.1 or – as soon they will be
  * approved by the European Commission - subsequent versions of the
@@ -136,11 +136,15 @@ public class MdekProfileUtils {
 		Controls retValue = null;
 
 		Rubric rubric = findRubricOfControl(profileBean, controlId);
-		int index = findControlIndex(profileBean, rubric, controlId);
-		if (index > -1) {
-			retValue = rubric.getControls().remove(index);
+		if (rubric != null) {
+			int index = findControlIndex(profileBean, rubric, controlId);
+			if (index > -1) {
+				retValue = rubric.getControls().remove(index);
+			}
+		} else {
+			log.info("Rubric or control was not found for control id: " + controlId);
 		}
-		
+
 		return retValue;
 	}
 

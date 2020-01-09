@@ -2,7 +2,7 @@
  * **************************************************-
  * InGrid Utils IGE
  * ==================================================
- * Copyright (C) 2014 - 2017 wemove digital solutions GmbH
+ * Copyright (C) 2014 - 2020 wemove digital solutions GmbH
  * ==================================================
  * Licensed under the EUPL, Version 1.1 or – as soon they will be
  * approved by the European Commission - subsequent versions of the
@@ -22,7 +22,6 @@
  */
 package de.ingrid.utils.ige.profile;
 
-import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -46,7 +45,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
 import de.ingrid.utils.enumeration.IDbEnum;
 import de.ingrid.utils.ige.profile.beans.ProfileBean;
@@ -82,6 +80,10 @@ public class ProfileMapper {
 	}
 
     public ProfileBean mapStringToBean(String profile) {
+        if (log.isDebugEnabled()) {
+            log.debug( "Passed Profile String" + profile );
+        }
+
         return mapStreamToBean(new InputSource(new StringReader(profile)));
     }
     
@@ -183,21 +185,8 @@ public class ProfileMapper {
                 
                 rubrics.add(newRubric);
             }
-            
-        } catch (ParserConfigurationException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (SAXException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (XPathExpressionException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         } catch (Exception e) {
-            log.error("Profile is corrupted or not present!");
+            log.error("Profile is corrupted or not present! " + e);
             e.printStackTrace();
             bean = null;
         }
