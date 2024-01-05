@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <parent>
     <groupId>de.ingrid</groupId>
     <artifactId>ingrid-base-pom</artifactId>
-    <version>5.0.0</version>
+    <version>7.0.0</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
-  <groupId>de.ingrid</groupId>
   <artifactId>ingrid-utils-ige</artifactId>
   <packaging>jar</packaging>
-  <version>6.3.0</version>
+  <version>7.0.0</version>
   <name>InGrid Utils IGE</name>
   <scm>
     <connection>scm:git:git@github.com:informationgrid/ingrid-utils-ige.git</connection>
@@ -19,7 +18,7 @@
   <!-- ==================== PROPERTIES ==================== -->
   <properties>
     <java.version>17</java.version>
-    <log4j2.version>2.19.0</log4j2.version>
+    <log4j2.version>2.22.1</log4j2.version>
   </properties>
 
   <build>
@@ -69,7 +68,7 @@
     <dependency>
       <groupId>de.ingrid</groupId>
       <artifactId>ingrid-utils</artifactId>
-      <version>6.3.0</version>
+      <version>7.0.0</version>
     </dependency>
     <dependency>
       <groupId>commons-lang</groupId>
